@@ -1,0 +1,21 @@
+---
+- name: Descargar archivo de instalación de Avast Antivirus
+  get_url:
+    url: https://www.avast.com/download-thank-you.php?product=FAV-FREE&locale=en-ww
+    dest: C:\Users\Public\Downloads\avast_free_antivirus_setup_online.exe
+
+- name: Instalar Avast Antivirus
+  win_package:
+    path: C:\Users\Public\Downloads\avast_free_antivirus_setup_online.exe
+    arguments: /i /norestart
+    product_id: '{A92DAB39-4E2C-4304-9AB6-BC44E68B55E2}'
+    product_name: 'Avast Free Antivirus'
+
+- name: Asegurarse de que el servicio de Avast Antivirus esté en ejecución
+  win_service:
+    name: avast! Antivirus
+    state: started
+    start_mode: auto
+
+- name: Actualizar la base de datos de virus de Avast Antivirus
+  win_shell: avast /update

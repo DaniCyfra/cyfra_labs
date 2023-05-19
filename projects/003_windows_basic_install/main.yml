@@ -1,0 +1,9 @@
+---
+- hosts: windows
+  gather_facts: no
+  roles:
+  - role: windows_update
+  - role: google_chrome
+  - role: netlogon
+  - role: login_lockout
+  - role: windows-screen-lock

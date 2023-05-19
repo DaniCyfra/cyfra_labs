@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  author: DaniCyfra
+  description: Role para instalar o actualizar Google Chrome en sistemas Windows.
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: Windows
+      versions:
+        - 11

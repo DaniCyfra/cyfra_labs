@@ -1,0 +1,10 @@
+---
+- name: Install or update Google Chrome
+  win_chocolatey:
+    name: googlechrome
+    state: latest
+  register: result
+
+- name: Show the installation status
+  debug:
+    var: result

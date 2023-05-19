@@ -1,0 +1,28 @@
+---
+- name: Retrieve Hardening Requirements
+  include_vars:
+    file: defaults/ubuntu_server_hardening_requirements.yml
+    name: hardening_requirements
+
+- name: Perform Server Hardening
+  include_tasks: hardening.yml
+
+- name: Dump Account Settings
+  shell: 'cat /etc/passwd'
+  register: account_settings
+
+- name: Print Account Settings
+  debug:
+    msg: "{{ account_settings.stdout_lines }}"
+
+- name: Get Security Settings
+  shell: 'sudo apt-get install debsecan && sudo debsecan-update -v && sudo debsecan --suite=buster --format=report --sendmail --output-format=json'
+  register: security_settings
+
+- name: Dump Security Settings
+  shell: 'cat /var/log/debsecan/report.json'
+  register: security_settings
+
+- name: Print Security Settings
+  debug:
+    msg: "{{ security_settings.stdout_lines }}"

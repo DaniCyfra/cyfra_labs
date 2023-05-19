@@ -1,0 +1,80 @@
+---
+ubuntu_hardening:
+  system_access: "System Access"
+  password_section:
+    password_expiry_warning:
+      name: 'PasswordExpiryWarning'
+      path: '/etc/login.defs'
+      pattern: '^.*PASS_WARN_AGE.*$'
+      value: 14
+    password_history_size:
+      name: 'PasswordHistorySize'
+      path: '/etc/login.defs'
+      pattern: '^.*PASS_HIST_SIZE.*$'
+      value: 5
+    maximum_password_age:
+      name: 'MaximumPasswordAge'
+      path: '/etc/login.defs'
+      pattern: '^.*PASS_MAX_DAYS.*$'
+      value: 90
+    minimum_password_age:
+      name: 'MinimumPasswordAge'
+      path: '/etc/login.defs'
+      pattern: '^.*PASS_MIN_DAYS.*$'
+      value: 1
+    minimum_password_length:
+      name: 'MinimumPasswordLength'
+      path: '/etc/login.defs'
+      pattern: '^.*PASS_MIN_LEN.*$'
+      value: 8
+    password_complexity:
+      name: 'PasswordComplexity'
+      path: '/etc/pam.d/common-password'
+      pattern: '^.*pam_cracklib.so.*$'
+      value: 'ucredit=-1 lcredit=-2 dcredit=-1 ocredit=-1'
+  account_lockout_section:
+    lockout_bad_count:
+      name: 'LockoutBadCount'
+      path: '/etc/pam.d/common-auth'
+      pattern: '^.*pam_tally2.so.*$'
+      value: 'onerr=fail deny=5 unlock_time=1800'
+    lockout_duration:
+      name: 'LockoutDuration'
+      path: '/etc/pam.d/common-auth'
+      pattern: '^.*pam_tally2.so.*$'
+      value: 'onerr=fail deny=5 unlock_time=1800'
+    reset_lockout_count:
+      name: 'ResetLockoutCount'
+      path: '/etc/pam.d/common-auth'
+      pattern: '^.*pam_tally2.so.*$'
+      value: 'onerr=fail deny=5 unlock_time=1800'
+  auditing_section:
+    audit_login_events:
+      name: 'Audit Login Events'
+      path: '/etc/rsyslog.d/50-default.conf'
+      pattern: '^auth,authpriv.*$'
+      value: '/var/log/auth.log'
+    audit_file_deletion_events:
+      name: 'Audit File Deletion Events'
+      path: '/etc/rsyslog.d/50-default.conf'
+      pattern: '^.*logrotate.*$'
+      value: '/var/log/logrotate.log'
+    audit_process_execution_events:
+      name: 'Audit Process Execution Events'
+      path: '/etc/audit/audit.rules'
+      pattern: '^.*-a always,exit -F arch=b64 -S execve -F auid>=1000 -F auid!=4294967295 -k .*$'
+      value: ''
+    audit_system_administration_events:
+      name: 'Audit System Administration Events'
+      path: '/etc/audit/audit.rules'
+      pattern: '^.*-w /etc/sudoers -p wa -k .*$'
+      value: ''
+    audit_kernel_module_loading:
+      name: 'Audit Kernel Module Loading'
+      path: '/etc/audit/audit.rules'
+      pattern: '^.*-w /sbin/insmod -p x -k .*$'
+      value: ''
+    audit_system_networking:
+      name: 'Audit System Networking'
+      path: '/etc/audit
+

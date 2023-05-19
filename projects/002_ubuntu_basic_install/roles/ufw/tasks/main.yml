@@ -1,0 +1,41 @@
+---
+
+# Instalación y configuración de ufw
+#
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Install ufw
+  apt:
+    name: ufw
+    state: present
+
+- name: Configure ufw to allow SSH
+  ufw:
+    rule: allow
+    direction: in
+    port: "22"   # Reemplaza <PUERTO_SSH> por el puerto SSH que estés utilizando
+
+- name: Configure ufw to allow HTTP
+  ufw:
+    rule: allow
+    direction: in
+    port: http
+
+- name: Configure ufw to allow HTTPS
+  ufw:
+    rule: allow
+    direction: in
+    port: https
+
+- name: Configure ufw to allow DNS
+  ufw:
+    rule: allow
+    direction: in
+    port: 53
+
+- name: Enable ufw
+  ufw:
+    state: enabled

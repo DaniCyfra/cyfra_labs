@@ -1,0 +1,12 @@
+---
+- name: Detección de virus al momento
+  hosts: {{ target_hosts }}
+
+  tasks:
+    - name: Detectar virus en el momento
+      command: clamscan -r {{ clamav_directory_path }} --infected
+      register: virus_detection
+
+    - name: Mostrar resultados de la detección de virus
+      debug:
+        var: virus_detection.stdout_lines

@@ -1,0 +1,21 @@
+---
+- name: Instalar Google Chrome
+  hosts: '{{ target_hosts }}'
+  become: yes
+  tasks:
+    - name: Importar clave pública de Google Chrome
+      apt_key:
+        url: "https://dl.google.com/linux/linux_signing_key.pub"
+        state: present
+
+    - name: Agregar el repositorio de Google Chrome
+      apt_repository:
+        repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
+        state: present
+        filename: google-chrome
+        update_cache: yes
+
+    - name: Instalar Google Chrome
+      apt:
+        name: google-chrome-stable
+        state: latest

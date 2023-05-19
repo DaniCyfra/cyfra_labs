@@ -1,0 +1,7 @@
+---
+- name: Install altools
+    win_chocolatey:
+      name: altools
+      version: '1.0.0.20191219'
+      source: http://internal/odata/repo
+      state: present

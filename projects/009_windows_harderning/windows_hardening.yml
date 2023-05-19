@@ -1,0 +1,7 @@
+---
+- name: Windows Hardening
+  hosts: "{{ target_hosts }}"
+  gather_facts: true
+  become: true
+  roles:
+    - windows_hardening 

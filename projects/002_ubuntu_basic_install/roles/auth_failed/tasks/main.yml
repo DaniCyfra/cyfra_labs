@@ -1,0 +1,13 @@
+---
+
+- name: Instalar paquete libpam-modules
+  apt:
+    name: libpam-modules
+    state: present
+
+- name: Configurar bloqueo de cuenta después de tres intentos fallidos
+  blockinfile:
+    path: /etc/pam.d/common-auth
+    block: |
+      auth [success=1 default=ignore] pam_unix.so nullok_secure
+      auth required pam_tally2.so onerr=fail deny=3 unlock_time=600

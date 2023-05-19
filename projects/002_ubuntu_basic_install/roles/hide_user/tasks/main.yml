@@ -1,0 +1,26 @@
+---
+# tasks file for hide_user
+- name: Edit lightdm.conf file
+  become: yes
+  become_user: root
+  lineinfile:
+    path: /etc/lightdm/lightdm.conf
+    regex: '^\s*autologin-user='
+    line: 'autologin-user={{ default_user }}'
+
+- name: Add ansible user to lightdm.conf
+  become: yes
+  become_user: root
+  lineinfile:
+    path: /etc/lightdm/lightdm.conf
+    regex: '^\s*autologin-user='
+    line: 'autologin-user=ansible'
+
+- name: Restart lightdm
+  become: yes
+  become_user: root
+  service:
+    name: lightdm
+    state: restarted
+  ignore_errors: yes
+  changed_when: False

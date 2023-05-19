@@ -1,0 +1,17 @@
+---
+- name: Update Windows using PowerShell
+  win_shell: |
+    $ProgressPreference = 'SilentlyContinue'
+    Write-Host "Checking for Windows updates..."
+    $updates = Get-WindowsUpdate -KBArticleID 'KB5003254', 'KB5003254' | Where-Object {$_.Installed -eq $false}
+    if ($updates) {
+      Write-Host "Installing updates..."
+      $updates | ForEach-Object {
+        $_ | Install-WindowsUpdate -Confirm:$false
+      }
+    } else {
+      Write-Host "No updates available."
+    }
+
+
+...

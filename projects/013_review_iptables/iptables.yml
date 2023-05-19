@@ -1,0 +1,6 @@
+---
+- hosts: '{{ target_hosts }}'
+- become: yes
+  tasks: 
+  - name: Review iptables
+    shell: iptables -L

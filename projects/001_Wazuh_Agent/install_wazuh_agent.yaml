@@ -1,0 +1,20 @@
+---
+- hosts: wazuh
+  become: yes
+  tasks:
+  - name: Add Agent in Wazuh Server
+    shell: /var/ossec/bin/manage_agents  -n {{ login }} -a '{{ subred }}'  > /tmp/id_agent.txt
+
+  - name: Get ID Agent and Key Agent for host client
+    shell: ID_AGENT=$(cat /tmp/id_agent.txt | grep ID | tr -d '.' | awk '{print $NF}') && /var/ossec/bin/manage_agents  -e $ID_AGENT
+    register: id_agent
+
+  - name: Show ID Agent and Key Agent for host client
+    debug: var=id_agent.stdout_lines
+  
+  - name: Delete file /tmp/id_agent.txt
+    file:
+      path: /tmp/id_agent.txt
+      state: absent  
+
+ 

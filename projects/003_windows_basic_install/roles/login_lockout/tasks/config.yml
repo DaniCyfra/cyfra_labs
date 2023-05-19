@@ -1,0 +1,14 @@
+---
+- name: Set LockoutThreshold registry value to 3
+  win_shell: |
+    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters' -Name "LockoutThreshold" -Value 3
+  become: true
+  become_method: runas
+  become_user: Administrador
+
+- name: Set ResetLockoutCountInterval registry value to 600 (10 minutes)
+  win_shell: |
+    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters' -Name "ResetLockoutCountInterval" -Value 600
+  become: true
+  become_method: runas
+  become_user: Administrador

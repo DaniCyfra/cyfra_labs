@@ -1,0 +1,10 @@
+---
+- name: Install Netlogon
+  win_shell: |
+    choco install netlogon -y
+
+- name: Configure login lockout
+  win_shell: |
+    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters' -Name "LockoutThreshold" -Value 3
+    Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Services\Netlogon\Parameters' -Name "ResetLockoutCountInterval" -Value 600
+

@@ -1,0 +1,17 @@
+- name: Install gnome-screensaver
+  apt:
+    name: gnome-screensaver
+    state: present
+
+- name: Configure gnome-screensaver to lock the screen after 5 minutes of inactivity
+  shell: "gsettings set org.gnome.desktop.session idle-delay 300"
+
+- name: Check if the configuration was applied correctly
+  shell: "gsettings get org.gnome.desktop.session idle-delay"
+  register: result
+  changed_when: false
+  failed_when: false
+
+- name: Debug
+  debug:
+    var: result.stdout

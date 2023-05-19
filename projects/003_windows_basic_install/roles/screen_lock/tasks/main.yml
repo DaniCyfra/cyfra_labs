@@ -1,0 +1,11 @@
+---
+- name: Configure screen lock timeout
+  win_shell: |
+    # Establecer el tiempo de espera de bloqueo de pantalla en 300 segundos (5 minutos)
+    Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name ScreenSaveTimeOut -Value 300
+
+    # Habilitar el protector de pantalla
+    Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name ScreenSaveActive -Value 1
+
+    # Actualizar la configuración del escritorio
+    rundll32.exe user32.dll, UpdatePerUserSystemParameters

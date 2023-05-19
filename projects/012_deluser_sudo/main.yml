@@ -1,0 +1,12 @@
+---
+- name: Eliminar usuario del archivo sudoers
+  hosts: '{{ target_hosts }}'
+  become: true
+  tasks:
+    - name: Eliminar usuario del archivo sudoers
+      shell: sudo sed -i '/^{{ login }} ALL=/d' /etc/sudoers
+
+    - name: Eliminar usuario del grupo sudo
+      shell: sudo deluser {{ login }} sudo  
+
+... 

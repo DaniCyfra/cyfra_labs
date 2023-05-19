@@ -1,0 +1,11 @@
+---
+- hosts: '{{ target_hosts }}'
+  vars:
+    num_attempts: 3
+  become: yes
+  roles:
+  - role: update_packages
+  - role: clamav_install
+  - role: lock_screen
+  - role: ufw
+  - role: auth_failed

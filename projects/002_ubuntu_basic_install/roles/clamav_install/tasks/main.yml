@@ -1,0 +1,69 @@
+---
+# Instalación clamAV
+
+- name: Actualizar caché de paquetes
+  apt:
+    update_cache: yes
+
+- name: Instalar ClamAV
+  apt:
+    name: clamav
+    state: present
+
+- name: Crear directorio /tmp/clamav si no existe
+  file:
+    path: /tmp/clamav
+    state: directory
+    mode: '0755'
+
+- name: Crear archivo de configuración clamd si no existe
+  file:
+    path: /etc/clamav/clamd.conf
+    state: touch
+
+- name: Configurar ClamAV
+  lineinfile:
+    path: /etc/clamav/clamd.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: "^Example", line: "Example false" }
+    - { regexp: "^LocalSocket", line: "LocalSocket /var/run/clamav/clamd.ctl" }
+    - { regexp: "^FixStaleSocket", line: "FixStaleSocket true" }
+    - { regexp: "^TCPSocket", line: "TCPSocket 3310" }
+    - { regexp: "^TCPAddr", line: "TCPAddr 127.0.0.1" }
+    - { regexp: "^MaxScanSize", line: "MaxScanSize 100M" }
+    - { regexp: "^MaxFileSize", line: "MaxFileSize 100M" }
+    - { regexp: "^MaxRecursion", line: "MaxRecursion 16" }
+    - { regexp: "^MaxDirectoryRecursion", line: "MaxDirectoryRecursion 8" }
+
+- name: Actualizar base de datos de ClamAV
+  apt:
+    name: clamav-freshclam
+    state: present
+  become: true
+
+- name: Programar escaneo diario
+  cron:
+    name: Ejecutar escaneo diario de ClamAV
+    minute: 0
+    hour: 16
+    job: clamscan -r {{ clamav_scan_path }}
+
+#- name: Detectar virus en el momento
+#  command: clamscan -r {{ clamav_directory_path }} --infected
+#  register: virus_detection
+
+- name: Mostrar resultados de la detección de virus
+  debug:
+    var: virus_detection.stdout_lines
+
+# Restart service ClamAV
+- name: Reiniciar servicio ClamAV
+  service:
+    name: clamav-freshclam
+    state: restarted
+    
+
+
+

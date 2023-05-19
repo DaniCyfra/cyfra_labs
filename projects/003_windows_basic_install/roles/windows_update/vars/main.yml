@@ -1,0 +1,10 @@
+---
+galaxy_info:
+  author: DaniCyfra
+  description: Role para actualizar el sistema Windows a través de PowerShell.
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+    - name: Windows
+      versions:
+        - 11

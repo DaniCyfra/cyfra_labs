@@ -1,0 +1,17 @@
+- name: Update Wazuh Certificate
+  hosts: '{{ target_hosts }}'
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: Install Wazuh agent
+      win_shell: Invoke-WebRequest -Uri https://packages.wazuh.com/4.x/windows/wazuh-agent-4.4.1-1.msi -OutFile ${env:tmp}\wazuh-agent.msi; msiexec.exe /i ${env:tmp}\wazuh-agent.msi /q WAZUH_MANAGER='siem.emergya.com' WAZUH_AGENT_NAME='{{ login }}' WAZUH_AGENT_GROUP="{{ grupo }}"
+
+    - name: Register Agent Client Base64
+      win_shell: echo y | C:\progra~2\ossec-agent\manage_agents.exe -i {{ key_agent_base64 }}
+
+
+
+    - name: Start Wazuh agent
+      win_service:
+        name: wazuhSvc
+        state: started

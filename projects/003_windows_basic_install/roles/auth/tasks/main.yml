@@ -1,0 +1,5 @@
+---
+# tasks file for roles/auth
+- name: cargar variables de archivo vars.yml
+  include_vars:
+    file: vars.yml

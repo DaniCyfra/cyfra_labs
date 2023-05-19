@@ -1,0 +1,37 @@
+---
+- name: Retrieve Hardening Requirements
+  include_vars:
+    file: defaults/ubuntu_server_hardening_requirements.yml
+    name: hardening_requirements
+
+- name: Create csv file for each host
+  set_fact:
+    host_csv_file: "/tmp/{{ inventory_hostname }}.csv"
+
+- name: Remove host CSV file if it exists
+  file:
+    path: "{{ host_csv_file }}"
+    state: absent
+  #delegate_to: 127.0.0.1
+
+- name: Create host CSV file
+  file:
+    path: "{{ host_csv_file }}"
+    state: touch
+  #delegate_to: 127.0.0.1
+
+- name: Create heading for host CSV file
+  shell: "echo 'Hostname,IP Address,Date,Section,Item,Expected Setting,Current Setting,Results' > {{ host_csv_file }}"
+  #delegate_to: 127.0.0.1
+
+- name: Get Security Settings
+  shell: '(echo "[System Access]" && cat /etc/login.defs | grep -v -E "^(#|$)" | cut -d "=" -f1 | awk "{print \$1 \" = \" \$2}" | sed "s/= \/.*/= 0/") > /tmp/{{ inventory_hostname }}_audit.ini'
+
+- name: "Fetch security settings ini file for {{ inventory_hostname }}"
+  fetch:
+    src: "/tmp/{{ inventory_hostname }}_audit.ini"
+    dest: "/tmp/{{ inventory_hostname }}_security_settings.ini"
+    flat: yes
+
+- name: Perform Server Scanning
+  include_tasks: scanning.yml
