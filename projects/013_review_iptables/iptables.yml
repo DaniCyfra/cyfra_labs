@@ -1,7 +1,7 @@
 ---
 - hosts: '{{ target_hosts }}'
-- become: yes
-- vars_files: vars.yml
+  become: yes
+  vars_files: vars.yml
   tasks: 
   - name: Review iptables
     shell: iptables -L
