@@ -1,0 +1,8 @@
+[ubuntupruebas]
+192.168.1.76
+
+[ubuntupruebas:vars]
+ansible_user=ansible
+ansible_ssh_private_key_file=/home/cyfra/.ssh/id_25519_ansible
+ansible_connection=ssh
+ansible_python_interpreter=/usr/bin/python3
