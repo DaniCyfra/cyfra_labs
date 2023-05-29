@@ -1,4 +1,4 @@
-# Comprobar si el script se est· ejecutando con privilegios de administrador
+# Comprobar si el script se est√° ejecutando con privilegios de administrador
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Host "Este script necesita privilegios de administrador. Ejecute PowerShell como administrador y vuelva a intentarlo."
     Exit
@@ -6,20 +6,17 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 # Definir los detalles del usuario
 $usuario = "ansible"
-$contraseÒa = "xxxxxxxxxxxxxxxxx"
-
-# Crear una nueva contraseÒa segura
-$contraseÒaSegura = ConvertTo-SecureString -String $contraseÒa -AsPlainText -Force
+$contrase√±a = Read-Host -Prompt "Ingrese la contrase√±a"
 
 # Crear el nuevo usuario
-$crearUsuario = New-LocalUser -Name $usuario -Password $contraseÒaSegura -PasswordNeverExpires:$true -UserMayNotChangePassword:$true -AccountNeverExpires:$true -Description "Usuario para fines administrativos"
+$crearUsuario = New-LocalUser -Name $usuario -Password $contrase√±a -PasswordNeverExpires:$true -UserMayNotChangePassword:$true -AccountNeverExpires:$true -Description "Usuario para fines administrativos"
 
 # Asignar privilegios de administrador al usuario
-$grupoAdministradores = Get-LocalGroup -Name "Administrators"
+$grupoAdministradores = Get-LocalGroup -Name "Administradores"
 $grupoAdministradores | Add-LocalGroupMember -Member $usuario
 
 if ($crearUsuario) {
-    Write-Host "El usuario $usuario se ha creado con Èxito y se ha agregado al grupo de administradores."
+    Write-Host "El usuario $usuario se ha creado con √©xito y se ha agregado al grupo de administradores."
 } else {
     Write-Host "Se produjo un error al crear el usuario."
 }
@@ -30,53 +27,34 @@ Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.9.7/python-3.9.7-amd
 Start-Process -Wait -FilePath "python-installer.exe"
 Write-Host "Python se ha instalado correctamente."
 
-# Configurar WinRM en el host Windows
-Write-Host "`nConfigurando WinRM en el host Windows..."
-winrm quickconfig
-Get-NetConnectionProfile
-$interfaceAlias = Read-Host "Ingresa el Alias de la interfaz (por ejemplo, 'wi-fi'): "
-Set-NetConnectionProfile -InterfaceAlias $interfaceAlias -NetworkCategory Private
-
-# Configurar la m·quina de control de Ansible
-$ipUbuntuControl = Read-Host "Ingresa la direcciÛn IP de la m·quina de control de Ansible: "
+# Configurar la m√°quina de control de Ansible
+$ipUbuntuControl = Read-Host "Ingresa la direcci√≥n IP de la m√°quina de control de Ansible: "
 Set-Item -Path WSMan:\localhost\Client\TrustedHosts -Value "$ipUbuntuControl" -Force
 
-# Crear certificado SSL
-$hostName = Read-Host "Ingresa el nombre del host Windows: "
-$cert = New-SelfSignedCertificate -DnsName $hostName -CertStoreLocation cert:\LocalMachine\My
-$certThumbprint = $cert.Thumbprint
-Write-Host "Se ha creado el certificado SSL correctamente."
-Write-Host "Huella del certificado SSL: $certThumbprint"
+# Solicitar la ruta del certificado SSL
+$rutaCertificadoSSL = Read-Host "Ingresa la ruta del certificado SSL: "
 
-# Ejecutar bloque problem·tico con CMD
-$cmdScript = @'
+# Ejecutar bloque problem√°tico con CMD
+$cmdScript = @"
 @echo off
 echo Eliminando agente de escucha existente...
 powershell -Command "Remove-Item -Path WSMan:\localhost\Listener\Listener_443 -Recurse -Force"
 echo Agente de escucha eliminado correctamente.
 echo Creando nuevo agente de escucha...
-powershell -Command "New-Item -Path WSMan:\localhost\Listener -Transport HTTPS -Address * -CertificateThumbPrint $certThumbprint -Force"
+powershell -Command "New-Item -Path WSMan:\localhost\Listener -Transport HTTPS -Address * -Thumbprint $(Get-PfxCertificate -FilePath '$rutaCertificadoSSL').Thumbprint -Force"
 echo Nuevo agente de escucha creado correctamente.
-'@
+"@
 
 $cmdScriptPath = "cmdScript.cmd"
 $cmdScript | Out-File -FilePath $cmdScriptPath -Encoding ASCII
 
 Start-Process -Wait -FilePath "cmd.exe" -ArgumentList "/C", $cmdScriptPath
 
-# Permitir tr·fico en el puerto 5986 en el Firewall de Windows
+# Permitir tr√°fico en el puerto 5986 en el Firewall de Windows
 Write-Host "`nConfigurando el Firewall de Windows..."
 $ruleName = "Allow WinRM HTTPS"
 $existingRule = Get-NetFirewallRule -DisplayName $ruleName -ErrorAction SilentlyContinue
 if ($existingRule -eq $null) {
     try {
         New-NetFirewallRule -DisplayName $ruleName -Name "WinRM-HTTPS-In-TCP" -Protocol TCP -LocalPort 5986 -Action Allow
-        Write-Host "Se ha creado la regla del Firewall correctamente."
-    } catch {
-        Write-Host "Error al crear la regla del Firewall: $_"
-    }
-} else {
-    Write-Host "La regla del Firewall ya existe. No se ha creado una nueva regla."
-}
-
-Write-Host "`n°La configuraciÛn de WinRM se ha completado correctamente!"
+        Write
