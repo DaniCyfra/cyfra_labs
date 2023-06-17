@@ -6,8 +6,10 @@ useradd -m ansible
 # Establecer una contraseña para el usuario ansible
 passwd ansible
 
-# Agregar el usuario ansible al archivo sudoers
-echo "ansible ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
 # Agregar el usuario ansible al grupo "sudo"
-usermod -aG sudo ansible
+adduser ansible sudo
+
+# Ocultar usuario ansible en el gdm
+echo "HideUsers=ansible" | sudo tee -a /etc/gdm3/custom.conf
+
+
