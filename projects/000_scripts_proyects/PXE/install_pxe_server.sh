@@ -24,7 +24,7 @@ sudo cp -avr $iso_path /var/www/html/ubuntu
 tar -xzvf netboot.tar.gz
 
 # Mover archivos a la ubicación correcta
-sudo mv mini.iso /var/www/html/ubuntu
+sudo mv $iso_path /var/www/html/ubuntu
 
 # Limpiar archivos descargados
 rm netboot.tar.gz
