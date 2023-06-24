@@ -11,3 +11,6 @@ sudo apt install net-tools -y
 
 # Instalar el paquete ssh
 sudo apt install ssh -y
+
+# Instalar Python
+apt install -y python-is-python3
