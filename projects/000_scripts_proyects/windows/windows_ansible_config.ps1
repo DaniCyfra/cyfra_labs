@@ -16,6 +16,10 @@ Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.9.7/python-3.9.7-amd
 Start-Process -Wait -FilePath "python-installer.exe"
 Write-Host "Python se ha instalado correctamente."
 
+# Define la conexión de red a privado
+Set-NetConnectionProfile -Name "Wi-Fi" -NetworkCategory Private
+
+
 # Habilita el protocolo WinRM
 winrm quickconfig
 
