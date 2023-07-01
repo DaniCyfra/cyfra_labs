@@ -10,6 +10,12 @@ net user ansible *
 # Da permisos de administrador al usuario "ansible"
 net localgroup Administradores ansible /add
 
+# Instalar Python en el host Windows
+Write-Host "Instalando Python en el host Windows..."
+Invoke-WebRequest -Uri "https://www.python.org/ftp/python/3.9.7/python-3.9.7-amd64.exe" -OutFile "python-installer.exe"
+Start-Process -Wait -FilePath "python-installer.exe"
+Write-Host "Python se ha instalado correctamente."
+
 # Habilita el protocolo WinRM
 winrm quickconfig
 
