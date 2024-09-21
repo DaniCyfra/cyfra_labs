@@ -1,0 +1,5 @@
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.GeneratedMSBuildEditorConfig.editorconfig
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.AssemblyInfoInputs.cache
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.AssemblyInfo.cs
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.csproj.CoreCompileInputs.cache
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.sourcelink.json
