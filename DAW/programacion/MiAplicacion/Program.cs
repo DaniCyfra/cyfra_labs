@@ -6,8 +6,10 @@ using System;
    {
        static void Main(string[] args)
         {
-          Console.WriteLine(“Hello World!”);
-          Console.Write(“Programming...”);
+          int numero;
+          numero = 10;
+          char letra = 'a';
+          string cadena = "Esta es una cadena";
        }
    }
  }
