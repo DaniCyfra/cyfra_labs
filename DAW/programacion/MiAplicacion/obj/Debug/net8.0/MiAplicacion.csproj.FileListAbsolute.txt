@@ -3,3 +3,13 @@
 /home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.AssemblyInfo.cs
 /home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.csproj.CoreCompileInputs.cache
 /home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.sourcelink.json
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/bin/Debug/net8.0/MiAplicacion
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/bin/Debug/net8.0/MiAplicacion.deps.json
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/bin/Debug/net8.0/MiAplicacion.runtimeconfig.json
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/bin/Debug/net8.0/MiAplicacion.dll
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/bin/Debug/net8.0/MiAplicacion.pdb
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.dll
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/refint/MiAplicacion.dll
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.pdb
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/MiAplicacion.genruntimeconfig.cache
+/home/djimenez/Documentos/proyectos/cyfra_labs/DAW/programacion/MiAplicacion/obj/Debug/net8.0/ref/MiAplicacion.dll
